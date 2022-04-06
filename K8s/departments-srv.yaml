@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: departments-srv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: departmentservice
+  template:
+    metadata:
+      labels:
+        app: departmentservice
+    spec:
+      containers:
+        - name: departmentservice
+          image: aieaoa244/departmentservice:latest
+          volumeMounts:
+          - name: secrets
+            mountPath: /app/secrets
+      volumes:
+      - name: secrets
+        secret:
+          secretName: dept-appsettings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: departments-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: departmentservice
+  ports:
+  - name: departmentservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: departmentsrvgrpc
+    protocol: TCP
+    port: 69
+    targetPort: 69

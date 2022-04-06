@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employees-srv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employeeservice
+  template:
+    metadata:
+      labels:
+        app: employeeservice
+    spec:
+      containers:
+        - name: employeeservice
+          image: aieaoa244/employeeservice:latest
+          volumeMounts:
+            - name: secrets
+              mountPath: /app/secrets
+      volumes:
+      - name: secrets
+        secret:
+          secretName: empl-appsettings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: employees-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: employeeservice
+  ports:
+  - name: employeeservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

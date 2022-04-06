@@ -1,0 +1,19 @@
+docker build -t <image> .
+
+kubectl apply -f departments-srv.yaml
+kubectl delete deployment departments-srv
+kubectl rollout restart deployment departments-srv
+
+kubectl get deployments
+  pods
+  services
+  namespaces
+  persistent volume claim \ persistent volume \ storage class
+  ingress
+
+https://kubernetes.github.io/ingress-nginx/deploy/
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml
+kubectl get pods --namespace=ingress-nginx
+
+kubectl create secret generic mssql --from-literal=SA_PASSWORD="Pa55w0rd!"
+  --from-file=

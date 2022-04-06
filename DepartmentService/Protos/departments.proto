@@ -1,0 +1,17 @@
+syntax = "proto3";
+option csharp_namespace = "DepartmentService";
+
+service GrpcDepartment {
+    rpc GetDepartments (GetDepartmentsRequest) returns (DepartmentResponse);
+}
+
+message GetDepartmentsRequest {}
+
+message GrpcDepartmentModel {
+    int32 id = 1;
+    string name = 2;
+}
+
+message DepartmentResponse {
+    repeated GrpcDepartmentModel department = 1;
+}
